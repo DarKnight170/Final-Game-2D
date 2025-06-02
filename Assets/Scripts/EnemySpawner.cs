@@ -3,12 +3,11 @@ using System.Collections.Generic;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public GameObject enemyPrefab;           // Prefab del enemigo
-    public Transform player;                 // Referencia al jugador
-    public float spawnInterval = 2f;         // Tiempo entre spawns
-    public int maxEnemies = 8;               // Máximo de enemigos activos
-
-    public Transform[] spawnPoints;          // Arreglo con los 5 puntos de spawn
+    public GameObject enemyPrefab;           
+    public Transform player;                
+    public float spawnInterval = 2f;        
+    public int maxEnemies = 8;              
+    public Transform[] spawnPoints;          
 
     private float timer;
     private List<GameObject> activeEnemies = new List<GameObject>();
@@ -20,10 +19,8 @@ public class EnemySpawner : MonoBehaviour
 
     void Update()
     {
-        // Limpiar enemigos destruidos
         activeEnemies.RemoveAll(enemy => enemy == null);
 
-        // Solo generar si hay menos del máximo permitido
         if (activeEnemies.Count < maxEnemies)
         {
             timer -= Time.deltaTime;
@@ -44,7 +41,6 @@ public class EnemySpawner : MonoBehaviour
             return;
         }
 
-        // Selecciona uno de los 5 puntos aleatoriamente
         Transform randomPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
         SpawnEnemy(randomPoint.position);
     }

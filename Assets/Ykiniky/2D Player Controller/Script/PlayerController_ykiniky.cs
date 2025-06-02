@@ -69,21 +69,28 @@ namespace YkinikY
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            // Contamos cuando toca suelo o plataforma para permitir saltar
+           
             if (collision.gameObject.CompareTag("Suelo") || collision.gameObject.CompareTag("Platform"))
             {
                 groundContacts++;
                 canJump = true;
             }
 
-            // Colisión con enemigo: muere solo si no tocó desde arriba
+            if (collision.gameObject.CompareTag("Hoyo"))
+            {
+                Death();
+                StartCoroutine(RestartLevel());
+            }
+
+
+
             if (collision.gameObject.CompareTag("Enemy"))
             {
                 bool playerTouchedFromAbove = false;
 
                 foreach (ContactPoint2D contact in collision.contacts)
                 {
-                    // contact.normal apunta del enemigo al jugador
+                   
                     if (contact.normal.y > 0.5f)
                     {
                         playerTouchedFromAbove = true;
@@ -91,10 +98,16 @@ namespace YkinikY
                     }
                 }
 
+               
+
                 if (!playerTouchedFromAbove)
                 {
+
                     Death();
+
                 }
+
+                
             }
         }
 
